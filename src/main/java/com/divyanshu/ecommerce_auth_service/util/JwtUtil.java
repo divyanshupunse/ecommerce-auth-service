@@ -11,16 +11,17 @@ import java.util.Date;
 public class JwtUtil {
 
     private static final String SECRET_KEY =
-            "MySuperSecretKeyForJWT1234567890MySuperSecretKey";
+            "MySuperSecretKeyForJWT1234567890MySuperSecretKey!";
 
     private static final long TOKEN_VALIDITY = 1000 * 60 * 60; // 1 hour
 
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    public String generateToken(String email, String role) {
+    public String generateToken(int userId ,String email, String role) {
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("userId", userId)
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY))
